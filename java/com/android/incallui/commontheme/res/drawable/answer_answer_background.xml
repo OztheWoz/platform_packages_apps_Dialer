@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- MD3 Answer button background with updated green color -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-  android:color="#80FFFFFF">
+  android:color="?attr/colorOnPrimary">
   <item>
     <shape
       android:shape="oval">
-      <solid android:color="#09ad00"/>
+      <solid android:color="@color/incall_answer_button_green"/>
     </shape>
   </item>
 </ripple>

@@ -112,11 +112,20 @@ public class SwipeButtonView extends AppCompatImageView {
     super(context, attrs, defStyleAttr);
     circlePaint = new Paint();
     circlePaint.setAntiAlias(true);
-    circleColor = 0xffffffff;
+
+    // Resolve MD3 theme colors
+    android.util.TypedValue typedValue = new android.util.TypedValue();
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+    normalColor = typedValue.data;
+
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
+    inverseColor = typedValue.data;
+
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryContainer, typedValue, true);
+    circleColor = typedValue.data;
+
     circlePaint.setColor(circleColor);
 
-    normalColor = 0xffffffff;
-    inverseColor = 0xff000000;
     minBackgroundRadius =
         context
             .getResources()
@@ -130,11 +139,20 @@ public class SwipeButtonView extends AppCompatImageView {
     super(context, attrs, defStyleAttr);
     circlePaint = new Paint();
     circlePaint.setAntiAlias(true);
-    circleColor = 0xffffffff;
+
+    // Resolve MD3 theme colors
+    android.util.TypedValue typedValue = new android.util.TypedValue();
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnSurface, typedValue, true);
+    normalColor = typedValue.data;
+
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorSurface, typedValue, true);
+    inverseColor = typedValue.data;
+
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorPrimaryContainer, typedValue, true);
+    circleColor = typedValue.data;
+
     circlePaint.setColor(circleColor);
 
-    normalColor = 0xffffffff;
-    inverseColor = 0xff000000;
     minBackgroundRadius =
         context
             .getResources()

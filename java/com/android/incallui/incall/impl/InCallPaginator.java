@@ -63,8 +63,14 @@ public class InCallPaginator extends View implements OnPageChangeListener {
     dotRadius = getResources().getDimensionPixelSize(R.dimen.paginator_dot_radius);
     dotsSeparation = getResources().getDimensionPixelSize(R.dimen.paginator_dots_separation);
 
-    int activeDotColor = context.getColor(R.color.paginator_dot);
-    int inactiveDotColor = context.getColor(R.color.paginator_path);
+    // Resolve MD3 theme colors for paginator dots
+    android.util.TypedValue typedValue = new android.util.TypedValue();
+    context.getTheme().resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true);
+    int activeDotColor = typedValue.data;
+
+    // Inactive dot color: onPrimary at 40% alpha
+    int inactiveDotColor = (activeDotColor & 0x00FFFFFF) | 0x66000000; // 40% alpha
+
     activeDotPaintPortrait = new Paint(Paint.ANTI_ALIAS_FLAG);
     activeDotPaintPortrait.setColor(activeDotColor);
     inactiveDotPaintPortrait = new Paint(Paint.ANTI_ALIAS_FLAG);

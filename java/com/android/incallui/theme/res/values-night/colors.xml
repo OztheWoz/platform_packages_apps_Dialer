@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <color name="incall_dialpad_background">#000000</color>
+
+  <!-- MD3 Dark mode gradient colors for normal calls: primaryContainer → tertiary (darker variants) -->
+  <color name="incall_background_gradient_top">#E9004A77</color>
+  <color name="incall_background_gradient_middle">#E9004A77</color>
+  <color name="incall_background_gradient_bottom">#CC006783</color>
+
+  <color name="incall_background_multiwindow">#E9004A77</color>
+
+  <!-- MD3 Dark mode gradient colors for spam calls: errorContainer → error (darker variants) -->
+  <color name="incall_background_gradient_spam_top">#E58C1D18</color>
+  <color name="incall_background_gradient_spam_middle">#D6601410</color>
+  <color name="incall_background_gradient_spam_bottom">#B8F2B8B5</color>
+
+  <color name="incall_background_multiwindow_spam">#E9601410</color>
+
+  <!-- MD3 Dark mode button colors -->
+  <color name="incall_answer_button_green">#34A853</color>
+  <color name="incall_decline_button_red">#F2B8B5</color>
 </resources>

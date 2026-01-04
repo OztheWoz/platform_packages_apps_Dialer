@@ -53,15 +53,21 @@
     <item>#841F10</item>
   </array>
 
-  <color name="incall_background_gradient_top">#E91141BB</color>
-  <color name="incall_background_gradient_middle">#E91141BB</color>
-  <color name="incall_background_gradient_bottom">#CC229FEB</color>
+  <!-- MD3 Gradient colors for normal calls: primaryContainer → tertiary -->
+  <color name="incall_background_gradient_top">#E9D3E3FD</color>
+  <color name="incall_background_gradient_middle">#E9D3E3FD</color>
+  <color name="incall_background_gradient_bottom">#CC7FCFFF</color>
 
-  <color name="incall_background_multiwindow">#E91141BB</color>
+  <color name="incall_background_multiwindow">#E9D3E3FD</color>
 
-  <color name="incall_background_gradient_spam_top">#E5A30B0B</color>
-  <color name="incall_background_gradient_spam_middle">#D6C01111</color>
-  <color name="incall_background_gradient_spam_bottom">#B8E55135</color>
+  <!-- MD3 Gradient colors for spam calls: errorContainer → error -->
+  <color name="incall_background_gradient_spam_top">#E5F9DEDC</color>
+  <color name="incall_background_gradient_spam_middle">#D6FFCDD2</color>
+  <color name="incall_background_gradient_spam_bottom">#B8B3261E</color>
 
-  <color name="incall_background_multiwindow_spam">#E9C22E2E</color>
+  <color name="incall_background_multiwindow_spam">#E9FFCDD2</color>
+
+  <!-- MD3 Button colors -->
+  <color name="incall_answer_button_green">#0F9D58</color>
+  <color name="incall_decline_button_red">#B3261E</color>
 </resources>

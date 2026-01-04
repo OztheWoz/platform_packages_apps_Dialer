@@ -15,8 +15,9 @@
   ~ limitations under the License
   -->
 <resources>
-  <color name="rtt_status_bar_color">#03165C</color>
-  <color name="rtt_navigation_bar_color">#FAFAFA</color>
-  <color name="rtt_button_unselected_color">#757575</color>
-  <color name="rtt_button_selected_color">#2A56C6</color>
+  <!-- MD3 RTT colors using Material 3 palette values -->
+  <color name="rtt_status_bar_color">#6750A4</color> <!-- MD3 Primary -->
+  <color name="rtt_navigation_bar_color">#FEF7FF</color> <!-- MD3 Surface -->
+  <color name="rtt_button_unselected_color">#49454F</color> <!-- MD3 onSurfaceVariant -->
+  <color name="rtt_button_selected_color">#6750A4</color> <!-- MD3 Primary -->
 </resources>

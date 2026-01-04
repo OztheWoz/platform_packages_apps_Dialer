@@ -23,4 +23,29 @@
   <style name="DialpadContainer">
     <item name="android:layout_alignParentTop">true</item>
   </style>
+
+  <!-- MD3 InCall Button Styles -->
+  <style name="InCall.Button.IconText" parent="Widget.Material3.Button.TextButton">
+    <item name="shapeAppearance">@style/ShapeAppearance.InCall.SmallComponent</item>
+    <item name="backgroundTint">@color/incall_button_background_tint</item>
+    <item name="iconTint">@color/incall_button_icon_tint</item>
+    <item name="android:textColor">@color/incall_button_text_color</item>
+    <item name="iconGravity">top</item>
+    <item name="iconPadding">@dimen/incall_button_label_margin</item>
+    <item name="iconSize">@dimen/incall_labeled_button_icon_size</item>
+    <item name="android:minWidth">@dimen/incall_labeled_button_size</item>
+    <item name="android:minHeight">@dimen/incall_labeled_button_size</item>
+    <item name="android:insetTop">0dp</item>
+    <item name="android:insetBottom">0dp</item>
+    <item name="android:padding">@dimen/incall_button_padding</item>
+    <item name="android:textAppearance">@style/Dialer.Incall.TextAppearance.Label</item>
+  </style>
+
+  <style name="ShapeAppearance.InCall.SmallComponent" parent="ShapeAppearance.Material3.SmallComponent">
+    <item name="cornerFamily">rounded</item>
+    <item name="cornerSize">8dp</item>
+  </style>
+
+  <!-- Button tint colors -->
+  <color name="incall_button_background_more_tint">#33FFFFFF</color>
 </resources>

@@ -17,20 +17,19 @@
 
 <resources>
 
-  <style name="Dialer.Incall.TextAppearance" parent="android:TextAppearance.Material">
+  <!-- MD3 Typography: BodyLarge (16sp) -->
+  <style name="Dialer.Incall.TextAppearance" parent="TextAppearance.Material3.BodyLarge">
     <item name="android:textColor">?android:attr/textColorSecondary</item>
-    <item name="android:textSize">18sp</item>
   </style>
 
-  <style name="Dialer.Incall.TextAppearance.Large">
+  <!-- MD3 Typography: HeadlineMedium (28sp) -->
+  <style name="Dialer.Incall.TextAppearance.Large" parent="TextAppearance.Material3.HeadlineMedium">
     <item name="android:textColor">?android:attr/textColorPrimary</item>
-    <item name="android:textSize">36sp</item>
-    <item name="android:fontFamily">sans-serif-light</item>
   </style>
 
-  <style name="Dialer.Incall.TextAppearance.Label">
+  <!-- MD3 Typography: LabelMedium (12sp) -->
+  <style name="Dialer.Incall.TextAppearance.Label" parent="TextAppearance.Material3.LabelMedium">
     <item name="android:textColor">?android:attr/textColorPrimary</item>
-    <item name="android:textSize">12sp</item>
   </style>
 
   <style name="BottomRowIcon">

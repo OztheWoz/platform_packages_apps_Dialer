@@ -28,7 +28,7 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import com.android.dialer.common.Assert;
-import com.android.incallui.incall.impl.CheckableLabeledButton.OnCheckedChangeListener;
+import com.android.incallui.incall.impl.MaterialLabeledButton.OnCheckedChangeListener;
 import com.android.incallui.incall.protocol.InCallButtonIds;
 import com.android.incallui.incall.protocol.InCallButtonUiDelegate;
 import com.android.incallui.incall.protocol.InCallScreenDelegate;
@@ -51,11 +51,11 @@ interface ButtonController {
   @InCallButtonIds
   int getInCallButtonId();
 
-  void setButton(CheckableLabeledButton button);
+  void setButton(MaterialLabeledButton button);
 
   final class Controllers {
 
-    private static void resetButton(CheckableLabeledButton button) {
+    private static void resetButton(MaterialLabeledButton button) {
       if (button != null) {
         button.setOnCheckedChangeListener(null);
         button.setOnClickListener(null);
@@ -72,7 +72,7 @@ interface ButtonController {
     protected boolean isEnabled;
     protected boolean isAllowed;
     protected boolean isChecked;
-    protected CheckableLabeledButton button;
+    protected MaterialLabeledButton button;
 
     protected CheckableButtonController(
         @NonNull InCallButtonUiDelegate delegate,
@@ -128,7 +128,7 @@ interface ButtonController {
 
     @Override
     @CallSuper
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       Controllers.resetButton(this.button);
 
       this.button = button;
@@ -145,7 +145,7 @@ interface ButtonController {
     }
 
     @Override
-    public void onCheckedChanged(CheckableLabeledButton checkableLabeledButton, boolean isChecked) {
+    public void onCheckedChanged(MaterialLabeledButton button, boolean isChecked) {
       button.setContentDescription(
           button.getContext().getText(isChecked ? checkedDescription : uncheckedDescription));
       doCheckedChanged(isChecked);
@@ -177,7 +177,7 @@ interface ButtonController {
 
     @Override
     @CallSuper
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       super.setButton(button);
       if (button != null) {
         button.setLabelText(label);
@@ -193,7 +193,7 @@ interface ButtonController {
     @StringRes protected final int contentDescription;
     protected boolean isEnabled;
     protected boolean isAllowed;
-    protected CheckableLabeledButton button;
+    protected MaterialLabeledButton button;
 
     protected NonCheckableButtonController(
         InCallButtonUiDelegate delegate,
@@ -243,7 +243,7 @@ interface ButtonController {
 
     @Override
     @CallSuper
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       Controllers.resetButton(this.button);
 
       this.button = button;
@@ -277,7 +277,7 @@ interface ButtonController {
 
     @Override
     @CallSuper
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       super.setButton(button);
       if (button != null) {
         button.setLabelText(label);
@@ -311,7 +311,7 @@ interface ButtonController {
     private boolean isEnabled;
     private boolean isAllowed;
     private boolean isChecked;
-    private CheckableLabeledButton button;
+    private MaterialLabeledButton button;
 
     @StringRes private int label = R.string.incall_label_speaker;
     @DrawableRes private int icon = R.drawable.quantum_ic_volume_up_vd_theme_24;
@@ -364,7 +364,7 @@ interface ButtonController {
     }
 
     @Override
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       this.button = button;
       if (button != null) {
         button.setEnabled(isEnabled && isAllowed);
@@ -407,8 +407,8 @@ interface ButtonController {
     }
 
     @Override
-    public void onCheckedChanged(CheckableLabeledButton checkableLabeledButton, boolean isChecked) {
-      checkableLabeledButton.setContentDescription(
+    public void onCheckedChanged(MaterialLabeledButton button, boolean isChecked) {
+      button.setContentDescription(
           isChecked ? isOnContentDescription : isOffContentDescription);
       delegate.toggleSpeakerphone();
     }
@@ -420,7 +420,7 @@ interface ButtonController {
     private boolean isAllowed = true; // We're not going to limit how users use call recording.
     private boolean isChecked;
     private long recordingSeconds;
-    private CheckableLabeledButton button;
+    private MaterialLabeledButton button;
 
     public CallRecordButtonController(@NonNull InCallButtonUiDelegate delegate) {
       this.delegate = delegate;
@@ -466,7 +466,7 @@ interface ButtonController {
     }
 
     @Override
-    public void setButton(CheckableLabeledButton button) {
+    public void setButton(MaterialLabeledButton button) {
       this.button = button;
       if (button != null) {
         final Resources res = button.getContext().getResources();

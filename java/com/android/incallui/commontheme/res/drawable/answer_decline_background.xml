@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- MD3 Decline button background using error color -->
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-  android:color="#80FFFFFF">
+  android:color="?attr/colorOnError">
   <item>
     <shape
       android:shape="oval">
-      <solid android:color="#DF0000"/>
+      <solid android:color="?attr/colorError"/>
     </shape>
   </item>
 </ripple>

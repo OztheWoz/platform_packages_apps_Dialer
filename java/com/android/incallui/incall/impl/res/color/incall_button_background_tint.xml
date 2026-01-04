@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2017 The Android Open Source Project
+  ~ Copyright (C) 2024 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -15,10 +15,8 @@
   ~ limitations under the License
   -->
 
-<resources>
-  <!-- MD3 Surface at 50% alpha for video overlay -->
-  <color name="videocall_overlay_background_color">#80000000</color>
-
-  <!-- Background color for spam. This color must match one of background_colors_dark in call UI. -->
-  <color name="incall_call_spam_background_color">@color/blocked_contact_background</color>
-</resources>
+<!-- MD3 Button Background Tint: checked = surface, unchecked = transparent -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+  <item android:color="?attr/colorSurface" android:state_checked="true"/>
+  <item android:color="@android:color/transparent"/>
+</selector>

@@ -37,7 +37,7 @@ public class InCallButtonGridFragment extends Fragment {
   private static final int BUTTON_COUNT = 12;
   private static final int BUTTONS_PER_ROW = 3;
 
-  private CheckableLabeledButton[] buttons = new CheckableLabeledButton[BUTTON_COUNT];
+  private MaterialLabeledButton[] buttons = new MaterialLabeledButton[BUTTON_COUNT];
   private OnButtonGridCreatedListener buttonGridListener;
 
   public static Fragment newInstance() {
@@ -57,18 +57,18 @@ public class InCallButtonGridFragment extends Fragment {
       LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle bundle) {
     View view = inflater.inflate(R.layout.incall_button_grid, parent, false);
 
-    buttons[0] = ((CheckableLabeledButton) view.findViewById(R.id.incall_first_button));
-    buttons[1] = ((CheckableLabeledButton) view.findViewById(R.id.incall_second_button));
-    buttons[2] = ((CheckableLabeledButton) view.findViewById(R.id.incall_third_button));
-    buttons[3] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fourth_button));
-    buttons[4] = ((CheckableLabeledButton) view.findViewById(R.id.incall_fifth_button));
-    buttons[5] = ((CheckableLabeledButton) view.findViewById(R.id.incall_sixth_button));
-    buttons[6] = ((CheckableLabeledButton) view.findViewById(R.id.incall_seventh_button));
-    buttons[7] = ((CheckableLabeledButton) view.findViewById(R.id.incall_eighth_button));
-    buttons[8] = ((CheckableLabeledButton) view.findViewById(R.id.incall_ninth_button));
-    buttons[9] = ((CheckableLabeledButton) view.findViewById(R.id.incall_tenth_button));
-    buttons[10] = ((CheckableLabeledButton) view.findViewById(R.id.incall_eleventh_button));
-    buttons[11] = ((CheckableLabeledButton) view.findViewById(R.id.incall_twelfth_button));
+    buttons[0] = ((MaterialLabeledButton) view.findViewById(R.id.incall_first_button));
+    buttons[1] = ((MaterialLabeledButton) view.findViewById(R.id.incall_second_button));
+    buttons[2] = ((MaterialLabeledButton) view.findViewById(R.id.incall_third_button));
+    buttons[3] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fourth_button));
+    buttons[4] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fifth_button));
+    buttons[5] = ((MaterialLabeledButton) view.findViewById(R.id.incall_sixth_button));
+    buttons[6] = ((MaterialLabeledButton) view.findViewById(R.id.incall_seventh_button));
+    buttons[7] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eighth_button));
+    buttons[8] = ((MaterialLabeledButton) view.findViewById(R.id.incall_ninth_button));
+    buttons[9] = ((MaterialLabeledButton) view.findViewById(R.id.incall_tenth_button));
+    buttons[10] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eleventh_button));
+    buttons[11] = ((MaterialLabeledButton) view.findViewById(R.id.incall_twelfth_button));
 
     return view;
   }
@@ -86,7 +86,7 @@ public class InCallButtonGridFragment extends Fragment {
   }
 
   public void onInCallScreenDialpadVisibilityChange(boolean isShowing) {
-    for (CheckableLabeledButton button : buttons) {
+    for (MaterialLabeledButton button : buttons) {
       button.setImportantForAccessibility(
           isShowing
               ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
@@ -141,7 +141,7 @@ public class InCallButtonGridFragment extends Fragment {
   }
 
   public void updateButtonColor(@ColorInt int color) {
-    for (CheckableLabeledButton button : buttons) {
+    for (MaterialLabeledButton button : buttons) {
       button.setCheckedColor(color);
     }
   }

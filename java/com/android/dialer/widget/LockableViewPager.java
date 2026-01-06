@@ -20,8 +20,9 @@ import android.content.Context;
 import androidx.viewpager.widget.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
-/** {@link ViewPager} useful for disabled swiping between pages. */
+/** {@link ViewPager} useful for disabled swiping between pages and supporting wrap_content. */
 public class LockableViewPager extends ViewPager {
 
   private boolean swipingLocked;
@@ -46,5 +47,24 @@ public class LockableViewPager extends ViewPager {
   @Override
   public boolean onTouchEvent(MotionEvent motionEvent) {
     return !swipingLocked && super.onTouchEvent(motionEvent);
+  }
+
+  @Override
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    int mode = MeasureSpec.getMode(heightMeasureSpec);
+    if (mode == MeasureSpec.UNSPECIFIED || mode == MeasureSpec.AT_MOST) {
+      int height = 0;
+      for (int i = 0; i < getChildCount(); i++) {
+        View child = getChildAt(i);
+        child.measure(widthMeasureSpec,
+            MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        int childHeight = child.getMeasuredHeight();
+        if (childHeight > height) {
+          height = childHeight;
+        }
+      }
+      heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+    }
+    super.onMeasure(widthMeasureSpec, heightMeasureSpec);
   }
 }

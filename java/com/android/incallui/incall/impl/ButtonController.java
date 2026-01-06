@@ -365,6 +365,7 @@ interface ButtonController {
 
     @Override
     public void setButton(MaterialLabeledButton button) {
+      Controllers.resetButton(this.button);
       this.button = button;
       if (button != null) {
         button.setEnabled(isEnabled && isAllowed);
@@ -467,6 +468,7 @@ interface ButtonController {
 
     @Override
     public void setButton(MaterialLabeledButton button) {
+      Controllers.resetButton(this.button);
       this.button = button;
       if (button != null) {
         final Resources res = button.getContext().getResources();
@@ -479,6 +481,7 @@ interface ButtonController {
         button.setEnabled(isEnabled);
         button.setVisibility(View.VISIBLE);
         button.setChecked(isChecked);
+        button.setOnCheckedChangeListener(null);
         button.setOnClickListener(this);
         button.setIconDrawable(R.drawable.quantum_ic_record_white_36);
         button.setContentDescription(res.getText(

@@ -85,82 +85,59 @@
           android:layout_height="wrap_content"/>
     </LinearLayout>
 
-    <!-- Legacy button pager (kept for backwards compatibility, may be removed) -->
-    <com.android.dialer.widget.LockableViewPager
-        android:id="@+id/incall_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/incall_action_bar_container"
-        android:layout_below="@+id/incall_contact_grid"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
-
-    <com.android.incallui.incall.impl.InCallPaginator
-        android:id="@+id/incall_paginator"
-        android:layout_width="@dimen/paginator_width"
-        android:layout_height="@dimen/paginator_height"
-        android:layout_above="@+id/incall_action_bar_container"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone"/>
-
     <!-- Dialpad Overlay Container -->
     <FrameLayout
         android:id="@+id/incall_dialpad_container"
         style="@style/DialpadContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/incall_action_bar_container"
+        android:layout_above="@+id/incall_bottom_container"
         android:layout_alignParentTop="true"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:visibility="gone"
         tools:background="@android:color/white"
-        tools:visibility="gone">
+        tools:visibility="gone"/>
 
-      <!-- Close dialpad button -->
-      <ImageButton
-          android:id="@+id/incall_dialpad_close"
-          android:layout_width="48dp"
-          android:layout_height="48dp"
-          android:layout_gravity="start|top"
-          android:layout_margin="8dp"
-          android:background="?attr/selectableItemBackgroundBorderless"
-          android:contentDescription="@string/incall_content_description_dialpad"
-          android:src="@drawable/quantum_ic_close_vd_theme_24"
-          android:tint="?attr/colorOnSurface"
-          android:visibility="gone"
-          tools:visibility="visible"/>
-    </FrameLayout>
-
-    <!-- MD3 Action Bar Container -->
+    <!-- Bottom Container: Action Bar + End Call FAB -->
     <LinearLayout
-        android:id="@+id/incall_action_bar_container"
+        android:id="@+id/incall_bottom_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/incall_end_call"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:background="@drawable/incall_action_bar_background"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
-      <!-- Action Bar will be included here -->
-      <include layout="@layout/incall_action_bar"/>
+      <!-- Button Pager (contains action bar buttons) -->
+      <com.android.dialer.widget.LockableViewPager
+          android:id="@+id/incall_pager"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+      <com.android.incallui.incall.impl.InCallPaginator
+          android:id="@+id/incall_paginator"
+          android:layout_width="@dimen/paginator_width"
+          android:layout_height="@dimen/paginator_height"
+          android:layout_gravity="center_horizontal"
+          android:visibility="gone"/>
+
+      <!-- End Call FAB -->
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
+          android:id="@+id/incall_end_call"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="8dp"
+          android:layout_marginBottom="24dp"
+          android:layout_gravity="center_horizontal"
+          android:contentDescription="@string/incall_content_description_end_call"
+          android:src="@drawable/incall_end_call_icon"
+          app:backgroundTint="@color/dialer_end_call_button_color"
+          app:fabSize="normal"
+          app:tint="@android:color/white"/>
 
     </LinearLayout>
-
-    <!-- End Call FAB -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/incall_end_call"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="36dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:contentDescription="@string/incall_content_description_end_call"
-        android:src="@drawable/incall_end_call_icon"
-        app:backgroundTint="@color/dialer_end_call_button_color"
-        app:fabSize="normal"
-        app:tint="@android:color/white"/>
 
   </RelativeLayout>
 

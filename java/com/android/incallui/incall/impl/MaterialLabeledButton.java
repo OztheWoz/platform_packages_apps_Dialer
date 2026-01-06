@@ -279,6 +279,9 @@ public class MaterialLabeledButton extends MaterialButton implements Checkable {
         if (broadcasting) {
             return;
         }
+        // Update the checked state before notifying listener
+        mIsChecked = checked;
+        refreshDrawableState();
         broadcasting = true;
         if (onCheckedChangeListener != null) {
             onCheckedChangeListener.onCheckedChanged(this, checked);

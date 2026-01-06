@@ -35,9 +35,12 @@ import com.android.dialer.R;
 public class InCallButtonGridFragment extends Fragment {
 
   private static final int BUTTON_COUNT = 12;
-  private static final int BUTTONS_PER_ROW = 3;
+  private static final int BUTTONS_PER_ROW = 4;
 
   private MaterialLabeledButton[] buttons = new MaterialLabeledButton[BUTTON_COUNT];
+  private MaterialLabeledButton moreButton;
+  private View extraRowsContainer;
+  private boolean isExpanded = false;
   private OnButtonGridCreatedListener buttonGridListener;
 
   public static Fragment newInstance() {
@@ -57,20 +60,51 @@ public class InCallButtonGridFragment extends Fragment {
       LayoutInflater inflater, @Nullable ViewGroup parent, @Nullable Bundle bundle) {
     View view = inflater.inflate(R.layout.incall_button_grid, parent, false);
 
-    buttons[0] = ((MaterialLabeledButton) view.findViewById(R.id.incall_first_button));
-    buttons[1] = ((MaterialLabeledButton) view.findViewById(R.id.incall_second_button));
-    buttons[2] = ((MaterialLabeledButton) view.findViewById(R.id.incall_third_button));
-    buttons[3] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fourth_button));
-    buttons[4] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fifth_button));
-    buttons[5] = ((MaterialLabeledButton) view.findViewById(R.id.incall_sixth_button));
-    buttons[6] = ((MaterialLabeledButton) view.findViewById(R.id.incall_seventh_button));
-    buttons[7] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eighth_button));
-    buttons[8] = ((MaterialLabeledButton) view.findViewById(R.id.incall_ninth_button));
-    buttons[9] = ((MaterialLabeledButton) view.findViewById(R.id.incall_tenth_button));
-    buttons[10] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eleventh_button));
+    // Main row buttons (always visible)
+    buttons[0] = ((MaterialLabeledButton) view.findViewById(R.id.incall_first_button));   // Mute
+    buttons[1] = ((MaterialLabeledButton) view.findViewById(R.id.incall_second_button));  // Keypad
+    buttons[2] = ((MaterialLabeledButton) view.findViewById(R.id.incall_third_button));   // Speaker
+
+    // Row 2 buttons (in expandable section)
+    buttons[3] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fourth_button));  // Add call
+    buttons[4] = ((MaterialLabeledButton) view.findViewById(R.id.incall_fifth_button));   // Hold
+    buttons[5] = ((MaterialLabeledButton) view.findViewById(R.id.incall_sixth_button));   // Swap
+    buttons[6] = ((MaterialLabeledButton) view.findViewById(R.id.incall_seventh_button)); // Merge
+
+    // Row 3 buttons (in expandable section)
+    buttons[7] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eighth_button));  // Record
+    buttons[8] = ((MaterialLabeledButton) view.findViewById(R.id.incall_ninth_button));   // Video
+    buttons[9] = ((MaterialLabeledButton) view.findViewById(R.id.incall_tenth_button));   // RTT
+    buttons[10] = ((MaterialLabeledButton) view.findViewById(R.id.incall_eleventh_button)); // Manage
+
+    // Row 4 (extra)
     buttons[11] = ((MaterialLabeledButton) view.findViewById(R.id.incall_twelfth_button));
 
+    // More button and expandable container
+    moreButton = view.findViewById(R.id.incall_more_button);
+    extraRowsContainer = view.findViewById(R.id.incall_extra_rows);
+
+    // Set up More button click listener
+    if (moreButton != null) {
+      moreButton.setOnClickListener(v -> toggleExpandedRows());
+    }
+
     return view;
+  }
+
+  private void toggleExpandedRows() {
+    isExpanded = !isExpanded;
+    if (extraRowsContainer != null) {
+      extraRowsContainer.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
+    }
+    if (moreButton != null) {
+      moreButton.setIconResource(isExpanded
+          ? R.drawable.quantum_ic_close_vd_theme_24
+          : R.drawable.quantum_ic_more_vert_vd_theme_24);
+      moreButton.setText(isExpanded
+          ? R.string.incall_label_less
+          : R.string.incall_label_more);
+    }
   }
 
   @Override
@@ -87,7 +121,15 @@ public class InCallButtonGridFragment extends Fragment {
 
   public void onInCallScreenDialpadVisibilityChange(boolean isShowing) {
     for (MaterialLabeledButton button : buttons) {
-      button.setImportantForAccessibility(
+      if (button != null) {
+        button.setImportantForAccessibility(
+            isShowing
+                ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+                : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+      }
+    }
+    if (moreButton != null) {
+      moreButton.setImportantForAccessibility(
           isShowing
               ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
               : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
@@ -124,6 +166,9 @@ public class InCallButtonGridFragment extends Fragment {
 
     int numVisibleRows = getResources().getInteger(R.integer.incall_num_rows);
     for (int i = 0; i < BUTTON_COUNT; ++i) {
+      if (buttons[i] == null) {
+        continue;
+      }
       int numRow = i / BUTTONS_PER_ROW;
       if (i >= buttonsToPlace.size()) {
         if (numRow >= numVisibleRows) {
@@ -142,7 +187,9 @@ public class InCallButtonGridFragment extends Fragment {
 
   public void updateButtonColor(@ColorInt int color) {
     for (MaterialLabeledButton button : buttons) {
-      button.setCheckedColor(color);
+      if (button != null) {
+        button.setCheckedColor(color);
+      }
     }
   }
 

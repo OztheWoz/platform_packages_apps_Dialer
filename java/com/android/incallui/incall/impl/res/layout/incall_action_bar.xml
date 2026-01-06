@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2024 The Android Open Source Project
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License
+  -->
+
+<!-- MD3 InCall Action Bar: expandable button rows -->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/incall_action_bar"
+    style="@style/InCall.ActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+  <!-- Expanded Rows Container (initially hidden) -->
+  <LinearLayout
+      android:id="@+id/incall_expanded_rows"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="gone"
+      tools:visibility="visible">
+
+    <!-- Row 2: Hold, Add call, (Swap), (Merge) -->
+    <LinearLayout
+        android:id="@+id/incall_row_2"
+        style="@style/InCall.ActionBar.Row"
+        tools:ignore="UselessLeaf">
+      <!-- Buttons added dynamically -->
+    </LinearLayout>
+
+    <!-- Row 3: Record, Video, Switch camera, RTT (if available) -->
+    <LinearLayout
+        android:id="@+id/incall_row_3"
+        style="@style/InCall.ActionBar.Row"
+        android:visibility="gone"
+        tools:ignore="UselessLeaf">
+      <!-- Buttons added dynamically -->
+    </LinearLayout>
+
+    <!-- Additional rows can be added dynamically -->
+  </LinearLayout>
+
+  <!-- Main Row: Keypad, Mute, Speaker, More (always visible) -->
+  <LinearLayout
+      android:id="@+id/incall_main_row"
+      style="@style/InCall.ActionBar.Row"
+      android:paddingBottom="0dp">
+
+    <!-- Keypad Button -->
+    <LinearLayout
+        android:id="@+id/incall_button_dialpad"
+        style="@style/InCall.ActionButton"
+        android:contentDescription="@string/incall_content_description_dialpad">
+      <ImageView
+          android:id="@+id/incall_button_dialpad_icon"
+          style="@style/InCall.ActionButton.Icon"
+          android:src="@drawable/quantum_ic_dialpad_vd_theme_24"
+          tools:ignore="ContentDescription"/>
+      <TextView
+          android:id="@+id/incall_button_dialpad_label"
+          style="@style/InCall.ActionButton.Label"
+          android:text="@string/incall_label_dialpad"/>
+    </LinearLayout>
+
+    <!-- Mute Button -->
+    <LinearLayout
+        android:id="@+id/incall_button_mute"
+        style="@style/InCall.ActionButton"
+        android:contentDescription="@string/incall_content_description_muted">
+      <ImageView
+          android:id="@+id/incall_button_mute_icon"
+          style="@style/InCall.ActionButton.Icon"
+          android:src="@drawable/quantum_ic_mic_off_vd_theme_24"
+          tools:ignore="ContentDescription"/>
+      <TextView
+          android:id="@+id/incall_button_mute_label"
+          style="@style/InCall.ActionButton.Label"
+          android:text="@string/incall_label_mute"/>
+    </LinearLayout>
+
+    <!-- Speaker Button -->
+    <LinearLayout
+        android:id="@+id/incall_button_audio"
+        style="@style/InCall.ActionButton"
+        android:contentDescription="@string/incall_content_description_speaker">
+      <ImageView
+          android:id="@+id/incall_button_audio_icon"
+          style="@style/InCall.ActionButton.Icon"
+          android:src="@drawable/quantum_ic_volume_up_vd_theme_24"
+          tools:ignore="ContentDescription"/>
+      <TextView
+          android:id="@+id/incall_button_audio_label"
+          style="@style/InCall.ActionButton.Label"
+          android:text="@string/incall_label_speaker"/>
+    </LinearLayout>
+
+    <!-- More Button -->
+    <LinearLayout
+        android:id="@+id/incall_button_more"
+        style="@style/InCall.ActionButton.More"
+        android:contentDescription="@string/incall_content_description_more_options">
+      <ImageView
+          android:id="@+id/incall_button_more_icon"
+          style="@style/InCall.ActionButton.Icon"
+          android:src="@drawable/quantum_ic_more_vert_vd_theme_24"
+          tools:ignore="ContentDescription"/>
+      <TextView
+          android:id="@+id/incall_button_more_label"
+          style="@style/InCall.ActionButton.Label"
+          android:text="@string/incall_label_more"/>
+    </LinearLayout>
+
+  </LinearLayout>
+
+</LinearLayout>

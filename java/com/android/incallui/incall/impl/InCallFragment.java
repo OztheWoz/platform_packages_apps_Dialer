@@ -40,7 +40,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.dialer.common.Assert;
 import com.android.dialer.common.FragmentUtils;
@@ -96,6 +98,19 @@ public class InCallFragment extends Fragment
   private int voiceNetworkType;
   private int phoneType;
   private boolean stateRestored;
+
+  // MD3 Action Bar views
+  private View actionBarContainer;
+  private LinearLayout expandedRows;
+  private View dialpadButton;
+  private View muteButton;
+  private View audioButton;
+  private View moreButton;
+  private ImageView dialpadIcon;
+  private ImageView muteIcon;
+  private ImageView audioIcon;
+  private ImageView moreIcon;
+  private boolean isActionBarExpanded = false;
 
   private static final int REQUEST_CODE_CALL_RECORD_PERMISSION = 1000;
 
@@ -177,6 +192,9 @@ public class InCallFragment extends Fragment
     endCallButton = view.findViewById(R.id.incall_end_call);
     endCallButton.setOnClickListener(this);
 
+    // Set up MD3 Action Bar
+    setupActionBar(view);
+
     if (ContextCompat.checkSelfPermission(getContext(), permission.READ_PHONE_STATE)
         != PackageManager.PERMISSION_GRANTED) {
       voiceNetworkType = TelephonyManager.NETWORK_TYPE_UNKNOWN;
@@ -241,6 +259,9 @@ public class InCallFragment extends Fragment
 
     inCallScreenDelegate.onInCallScreenDelegateInit(this);
     inCallScreenDelegate.onInCallScreenReady();
+
+    // Signal the MD3 action bar is ready (replaces InCallButtonGridFragment callback)
+    onActionBarReady();
   }
 
   @Override
@@ -393,6 +414,9 @@ public class InCallFragment extends Fragment
     // Take note that the dialpad button isShowing
     getButtonController(InCallButtonIds.BUTTON_DIALPAD).setChecked(isShowing);
 
+    // Update MD3 action bar dialpad button state
+    updateDialpadButtonState(isShowing);
+
     // This check is needed because there is a race condition where we attempt to update
     // ButtonGridFragment before it is ready, so we check whether it is ready first and once it is
     // ready, #onButtonGridCreated will mark the dialpad button as isShowing.
@@ -470,6 +494,16 @@ public class InCallFragment extends Fragment
     ((SpeakerButtonController) getButtonController(InCallButtonIds.BUTTON_AUDIO))
         .setAudioState(audioState);
     getButtonController(InCallButtonIds.BUTTON_MUTE).setChecked(audioState.isMuted());
+
+    // Update MD3 action bar button states
+    updateMuteButtonState(audioState.isMuted());
+
+    // Update speaker button state based on audio route
+    boolean isSpeakerOn = audioState.getRoute() == CallAudioState.ROUTE_SPEAKER;
+    boolean isBluetooth = audioState.getRoute() == CallAudioState.ROUTE_BLUETOOTH;
+    int speakerIcon = isBluetooth ? R.drawable.quantum_ic_bluetooth_audio_vd_theme_24
+        : R.drawable.quantum_ic_volume_up_vd_theme_24;
+    updateAudioButtonState(isSpeakerOn || isBluetooth, speakerIcon);
   }
 
   @Override
@@ -510,32 +544,46 @@ public class InCallFragment extends Fragment
     // When the incall screen is ready, this method is called from #setSecondary, even though the
     // incall button ui is not ready yet. This method is called again once the incall button ui is
     // ready though, so this operation is safe and will be executed asap.
-    if (inCallButtonGridFragment == null) {
+
+    // MD3: Check if action bar is initialized instead of grid fragment
+    if (actionBarContainer == null) {
       return;
     }
-    int numVisibleButtons =
-        inCallButtonGridFragment.updateButtonStates(
-            buttonControllers, buttonChooser, voiceNetworkType, phoneType);
 
-    int visibility = numVisibleButtons == 0 ? View.GONE : View.VISIBLE;
-    pager.setVisibility(visibility);
-    if (adapter != null
-        && adapter.getCount() > 1
-        && getResources().getInteger(R.integer.incall_num_rows) > 1) {
-      paginator.setVisibility(View.VISIBLE);
-      pager.setSwipingLocked(false);
-    } else {
-      paginator.setVisibility(View.GONE);
-      if (adapter != null) {
-        pager.setSwipingLocked(true);
-        pager.setCurrentItem(adapter.getButtonGridPosition());
+    // Legacy grid fragment support (if still in use)
+    if (inCallButtonGridFragment != null) {
+      int numVisibleButtons =
+          inCallButtonGridFragment.updateButtonStates(
+              buttonControllers, buttonChooser, voiceNetworkType, phoneType);
+
+      int visibility = numVisibleButtons == 0 ? View.GONE : View.VISIBLE;
+      pager.setVisibility(visibility);
+      if (adapter != null
+          && adapter.getCount() > 1
+          && getResources().getInteger(R.integer.incall_num_rows) > 1) {
+        paginator.setVisibility(View.VISIBLE);
+        pager.setSwipingLocked(false);
+      } else {
+        paginator.setVisibility(View.GONE);
+        if (adapter != null) {
+          pager.setSwipingLocked(true);
+          pager.setCurrentItem(adapter.getButtonGridPosition());
+        }
       }
+    } else {
+      // MD3 action bar: Keep visible, hide pager/paginator
+      pager.setVisibility(View.GONE);
+      paginator.setVisibility(View.GONE);
+      actionBarContainer.setVisibility(View.VISIBLE);
     }
   }
 
   @Override
   public void updateInCallButtonUiColors(@ColorInt int color) {
-    inCallButtonGridFragment.updateButtonColor(color);
+    // MD3: Colors are handled via theme attributes, no dynamic color needed
+    if (inCallButtonGridFragment != null) {
+      inCallButtonGridFragment.updateButtonColor(color);
+    }
   }
 
   @Override
@@ -621,5 +669,132 @@ public class InCallFragment extends Fragment
 
   private Fragment getLocationFragment() {
     return getChildFragmentManager().findFragmentById(R.id.incall_location_holder);
+  }
+
+  // ==================== MD3 Action Bar Methods ====================
+
+  private void setupActionBar(View view) {
+    // Find action bar container and expanded rows
+    actionBarContainer = view.findViewById(R.id.incall_action_bar_container);
+    expandedRows = view.findViewById(R.id.incall_expanded_rows);
+
+    // Find main row buttons
+    dialpadButton = view.findViewById(R.id.incall_button_dialpad);
+    muteButton = view.findViewById(R.id.incall_button_mute);
+    audioButton = view.findViewById(R.id.incall_button_audio);
+    moreButton = view.findViewById(R.id.incall_button_more);
+
+    // Find button icons (for state changes)
+    dialpadIcon = view.findViewById(R.id.incall_button_dialpad_icon);
+    muteIcon = view.findViewById(R.id.incall_button_mute_icon);
+    audioIcon = view.findViewById(R.id.incall_button_audio_icon);
+    moreIcon = view.findViewById(R.id.incall_button_more_icon);
+
+    // Set up click listeners
+    if (dialpadButton != null) {
+      dialpadButton.setOnClickListener(v -> onDialpadButtonClicked());
+    }
+    if (muteButton != null) {
+      muteButton.setOnClickListener(v -> onMuteButtonClicked());
+    }
+    if (audioButton != null) {
+      audioButton.setOnClickListener(v -> onAudioButtonClicked());
+    }
+    if (moreButton != null) {
+      moreButton.setOnClickListener(v -> onMoreButtonClicked());
+    }
+
+    // Initialize button states to default (not activated)
+    updateActionBarButtonState(dialpadIcon, false);
+    updateActionBarButtonState(muteIcon, false);
+    updateActionBarButtonState(audioIcon, false);
+
+    // Signal that the button UI is ready (replacing InCallButtonGridFragment callback)
+    // This is called after the view is fully created in onViewCreated
+  }
+
+  /** Called to signal the action bar is ready. Should be called from onViewCreated. */
+  private void onActionBarReady() {
+    LogUtil.i("InCallFragment.onActionBarReady", "MD3 Action Bar is ready");
+    inCallButtonUiDelegate.onInCallButtonUiReady(this);
+  }
+
+  private void onDialpadButtonClicked() {
+    LogUtil.i("InCallFragment.onDialpadButtonClicked", "dialpad button clicked");
+    // Toggle dialpad visibility via delegate
+    boolean isCurrentlyChecked = getButtonController(InCallButtonIds.BUTTON_DIALPAD).isAllowed()
+        && dialpadIcon != null && dialpadIcon.isActivated();
+    inCallButtonUiDelegate.showDialpadClicked(!isCurrentlyChecked);
+  }
+
+  private void onMuteButtonClicked() {
+    LogUtil.i("InCallFragment.onMuteButtonClicked", "mute button clicked");
+    // Toggle mute state
+    boolean isCurrentlyMuted = muteIcon != null && muteIcon.isActivated();
+    inCallButtonUiDelegate.muteClicked(!isCurrentlyMuted, true /* clickedByUser */);
+  }
+
+  private void onAudioButtonClicked() {
+    LogUtil.i("InCallFragment.onAudioButtonClicked", "audio button clicked");
+    // Show audio route selector or toggle speaker
+    SpeakerButtonController speakerController =
+        (SpeakerButtonController) getButtonController(InCallButtonIds.BUTTON_AUDIO);
+    // Check if we should show selector or toggle
+    inCallButtonUiDelegate.showAudioRouteSelector();
+  }
+
+  private void onMoreButtonClicked() {
+    LogUtil.i("InCallFragment.onMoreButtonClicked", "more button clicked");
+    toggleActionBarExpanded();
+  }
+
+  private void toggleActionBarExpanded() {
+    isActionBarExpanded = !isActionBarExpanded;
+    if (expandedRows != null) {
+      expandedRows.setVisibility(isActionBarExpanded ? View.VISIBLE : View.GONE);
+    }
+    // Update more button icon (use close when expanded, more_vert when collapsed)
+    if (moreIcon != null) {
+      moreIcon.setImageResource(isActionBarExpanded
+          ? R.drawable.quantum_ic_close_vd_theme_24
+          : R.drawable.quantum_ic_more_vert_vd_theme_24);
+    }
+    // Update more button label
+    View moreLabel = getView().findViewById(R.id.incall_button_more_label);
+    if (moreLabel instanceof TextView) {
+      ((TextView) moreLabel).setText(isActionBarExpanded
+          ? R.string.incall_label_less
+          : R.string.incall_label_more);
+    }
+  }
+
+  /** Updates the visual state of an action bar button icon. */
+  private void updateActionBarButtonState(ImageView icon, boolean activated) {
+    if (icon != null) {
+      icon.setActivated(activated);
+    }
+  }
+
+  /** Updates the mute button visual state based on mute state. */
+  private void updateMuteButtonState(boolean isMuted) {
+    updateActionBarButtonState(muteIcon, isMuted);
+    if (muteIcon != null) {
+      muteIcon.setImageResource(isMuted
+          ? R.drawable.quantum_ic_mic_off_vd_theme_24
+          : R.drawable.quantum_ic_mic_off_vd_theme_24);  // Same icon, state shows via tint
+    }
+  }
+
+  /** Updates the dialpad button visual state. */
+  private void updateDialpadButtonState(boolean isShowing) {
+    updateActionBarButtonState(dialpadIcon, isShowing);
+  }
+
+  /** Updates the audio/speaker button visual state. */
+  private void updateAudioButtonState(boolean isActive, int iconRes) {
+    updateActionBarButtonState(audioIcon, isActive);
+    if (audioIcon != null && iconRes != 0) {
+      audioIcon.setImageResource(iconRes);
+    }
   }
 }

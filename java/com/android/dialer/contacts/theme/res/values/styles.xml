@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
   ~ Copyright (C) 2012 The Android Open Source Project
   ~
@@ -16,6 +17,8 @@
 
 <resources>
 
+  <!-- Directory Header Styles -->
+
   <style name="DirectoryHeader">
     <item name="android:background">@android:color/transparent</item>
   </style>
@@ -33,11 +36,10 @@
     <item name="android:fontFamily">sans-serif-medium</item>
   </style>
 
-  <!-- TextView style used for headers.
-
-This is similar to ?android:attr/listSeparatorTextView but uses different
-background and text color. See also android:style/Widget.Holo.TextView.ListSeparator
-(which is private, so we cannot specify it as a parent style).  -->
+  <!-- Contact List Separator Style
+       Similar to ?android:attr/listSeparatorTextView but uses different
+       background and text color. See also android:style/Widget.Holo.TextView.ListSeparator
+       (which is private, so we cannot specify it as a parent style). -->
   <style name="ContactListSeparatorTextViewStyle">
     <item name="android:layout_width">match_parent</item>
     <item name="android:layout_height">wrap_content</item>
@@ -54,6 +56,8 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
     <item name="android:textAllCaps">true</item>
   </style>
 
+  <!-- Text Appearance Styles -->
+
   <style name="TextAppearanceMedium" parent="@android:style/TextAppearance.Medium">
     <item name="android:textSize">16sp</item>
     <item name="android:textColor">#000000</item>
@@ -63,6 +67,8 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
     <item name="android:textSize">14sp</item>
     <item name="android:textColor">#737373</item>
   </style>
+
+  <!-- List and Theme Styles -->
 
   <style name="ListViewStyle">
     <item name="android:overScrollMode">always</item>
@@ -74,10 +80,12 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
     <item name="android:windowAnimationStyle">@null</item>
     <item name="android:windowNoTitle">true</item>
     <!-- Activities that use this theme are background activities without obvious displays.
-        However, some also have dialogs. Therefore, it doesn't make sense to set this true.-->
+         However, some also have dialogs. Therefore, it doesn't make sense to set this true.-->
     <item name="android:windowNoDisplay">false</item>
     <item name="android:windowIsFloating">true</item>
   </style>
+
+  <!-- Call Subject Dialog Theme -->
 
   <style name="Theme.CallSubjectDialogTheme" parent="@android:style/Theme.Material.Light.Dialog">
     <item name="android:layout_width">match_parent</item>
@@ -93,4 +101,5 @@ background and text color. See also android:style/Widget.Holo.TextView.ListSepar
     <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowElevation">0dp</item>
   </style>
+
 </resources>

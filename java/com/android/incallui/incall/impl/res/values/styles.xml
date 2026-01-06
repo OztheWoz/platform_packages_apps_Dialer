@@ -48,4 +48,65 @@
 
   <!-- Button tint colors -->
   <color name="incall_button_background_more_tint">#33FFFFFF</color>
+
+  <!-- ============================================== -->
+  <!-- MD3 Action Bar Styles -->
+  <!-- ============================================== -->
+
+  <!-- Base InCall style (required for dot-notation hierarchy) -->
+  <style name="InCall"/>
+
+  <!-- Action Bar Container: rounded top corners, surface container background -->
+  <style name="InCall.ActionBar">
+    <item name="android:background">@drawable/incall_action_bar_background</item>
+    <item name="android:paddingTop">16dp</item>
+    <item name="android:paddingBottom">8dp</item>
+    <item name="android:paddingStart">16dp</item>
+    <item name="android:paddingEnd">16dp</item>
+    <item name="android:orientation">vertical</item>
+  </style>
+
+  <!-- Action Bar Row: horizontal layout for buttons -->
+  <style name="InCall.ActionBar.Row">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:orientation">horizontal</item>
+    <item name="android:gravity">center</item>
+    <item name="android:paddingBottom">8dp</item>
+  </style>
+
+  <!-- Action Button: circular icon with label below -->
+  <style name="InCall.ActionButton">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:gravity">center</item>
+    <item name="android:orientation">vertical</item>
+    <item name="android:padding">4dp</item>
+    <item name="android:background">@null</item>
+  </style>
+
+  <!-- Action Button Icon Container: circular background -->
+  <style name="InCall.ActionButton.Icon">
+    <item name="android:layout_width">48dp</item>
+    <item name="android:layout_height">48dp</item>
+    <item name="android:background">@drawable/incall_action_button_background</item>
+    <item name="android:scaleType">center</item>
+    <item name="android:tint">@color/incall_action_button_icon_tint</item>
+  </style>
+
+  <!-- Action Button Label: small text below icon -->
+  <style name="InCall.ActionButton.Label" parent="TextAppearance.Material3.LabelMedium">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">4dp</item>
+    <item name="android:textColor">?attr/colorOnSurfaceVariant</item>
+    <item name="android:gravity">center</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:ellipsize">end</item>
+  </style>
+
+  <!-- More Button: uses expand_more/expand_less icons -->
+  <style name="InCall.ActionButton.More" parent="InCall.ActionButton">
+  </style>
 </resources>

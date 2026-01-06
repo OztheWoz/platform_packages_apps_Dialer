@@ -73,4 +73,24 @@
        [CHAR LIMIT=32] -->
   <string name="incall_note_sent">Note sent</string>
 
+  <!-- Button shown during a phone call to show more options.
+     [CHAR LIMIT=12] -->
+  <string name="incall_label_more">More</string>
+
+  <!-- Content description for the dialpad button.
+     [CHAR LIMIT=NONE] -->
+  <string name="incall_content_description_dialpad">Show dialpad</string>
+
+  <!-- Content description for the more options button.
+     [CHAR LIMIT=NONE] -->
+  <string name="incall_content_description_more_options">More options</string>
+
+  <!-- Button shown during a phone call to record the call.
+     [CHAR LIMIT=12] -->
+  <string name="incall_label_record">Record</string>
+
+  <!-- Button shown during a phone call to collapse the expanded action bar.
+     [CHAR LIMIT=12] -->
+  <string name="incall_label_less">Less</string>
+
 </resources>
